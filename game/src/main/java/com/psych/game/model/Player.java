@@ -3,10 +3,12 @@ package com.psych.game.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.URL;
 
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 
 @Entity
@@ -18,6 +20,27 @@ public class Player extends Auditable {
     @Setter
     @NotBlank
     private String name;
+
+    @Getter
+    @Setter
+    @URL
+    private String psychFaceURL;
+
+    @Setter
+    @URL
+    @Getter
+    private String picURL;
+
+    @OneToOne
+    @Getter
+    @Setter
+    private Stats playerStats;
+
+    @ManyToMany(mappedBy = "players")
+    @Getter
+    @Setter
+    private List<Game> games;
+
 
 
 }
