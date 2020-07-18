@@ -7,8 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@MappedSuperclass
-public abstract class Employee extends Auditable {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Employee extends User {
 
 
     @Getter
@@ -16,16 +17,35 @@ public abstract class Employee extends Auditable {
     @NotBlank
     private String name;
 
-    @Getter
-    @Setter
-    @NotBlank
-    @Email
-    private String email;
 
     @Getter
     @Setter
     @NotBlank
     private String address;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     @Getter
     @Setter
