@@ -262,7 +262,7 @@ public class Game extends Auditable{
         }
     }
 
-    private Round getCurrentRound() throws Exception{
+    public Round getCurrentRound() throws Exception{
         if(rounds.size()==0){
             throw new Exception("game has not started");
         }
@@ -293,5 +293,8 @@ public class Game extends Auditable{
 
         }
         readyPlayers.remove(player);
+    }
+    public String getSecretCode(){
+        return Utils.getSecretCodeFromId(getId());
     }
 }
