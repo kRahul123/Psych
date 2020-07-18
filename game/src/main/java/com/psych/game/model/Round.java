@@ -1,12 +1,12 @@
 package com.psych.game.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,25 +18,30 @@ public class Round extends Auditable{
     @Getter
     @Setter
     @NotNull
+    @JsonBackReference
     private Game game;
 
     @ManyToOne
     @Getter
     @NotNull
     @Setter
+    @JsonIdentityReference
     private Question question;
 
     @Getter
     @Setter
     private  int roundNumber;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Map<Player,PlayerAnswer>submittedAnswers=new HashMap<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Map<Player,PlayerAnswer>selectedAnswer=new HashMap<>();
 
     @ManyToOne
+    @JsonIdentityReference
     private EllenAnswer ellenAnswer;
 
     public Game getGame() {

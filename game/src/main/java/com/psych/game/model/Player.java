@@ -1,6 +1,8 @@
 package com.psych.game.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,11 +28,6 @@ public class Player extends User {
 
     @Getter
     @Setter
-    @NotBlank
-    private String name;
-
-    @Getter
-    @Setter
     @URL
     private String psychFaceURL;
 
@@ -39,7 +36,7 @@ public class Player extends User {
     @Getter
     private String picURL;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @Getter
     @Setter
     private Stats stat=new Stats();
@@ -47,6 +44,7 @@ public class Player extends User {
     @ManyToMany(mappedBy = "players")
     @Getter
     @Setter
+    @JsonIdentityReference
     private Set<Game> games=new HashSet<>();
 
     @ManyToOne
@@ -62,13 +60,7 @@ public class Player extends User {
         this.alias = alias;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPsychFaceURL() {
         return psychFaceURL;

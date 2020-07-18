@@ -1,8 +1,11 @@
 package com.psych.game;
 
+import com.psych.game.config.ApplicationContextProvider;
 import com.psych.game.model.EllenAnswer;
 import com.psych.game.model.GameMode;
 import com.psych.game.model.Question;
+import com.psych.game.repository.EllenAnswerRepository;
+import com.psych.game.repository.QuestionRepository;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -13,8 +16,12 @@ import java.util.*;
 public class Utils {
     private static List<String> wordsList;
     private static Map<String,Integer>wordIndices;
+    private static EllenAnswerRepository ellenAnswerRepository;
+    private static QuestionRepository questionRepository;
 
     static{
+        ellenAnswerRepository=(EllenAnswerRepository) ApplicationContextProvider.getApplicationContext().getBean("ellenAnswerRepository");
+        questionRepository=(QuestionRepository)ApplicationContextProvider.getApplicationContext().getBean("questionRepository");
         // read words into wordsList
         wordsList=new ArrayList<>();
         wordIndices=new HashMap<>();
@@ -79,13 +86,12 @@ public class Utils {
     }
 
     public static Question getRandomQuestion(GameMode gameMode) {
-        //todo : implement this
 
-        return null;
+
+        return questionRepository.getRandomQuestion(gameMode.getId());
     }
 
     public static EllenAnswer getRandomEllenAnswer(Question question) {
-        //todo : implement the logic
-        return null;
+        return ellenAnswerRepository.getRandomAnswer(question.getId());
     }
 }

@@ -1,5 +1,6 @@
 package com.psych.game.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.psych.game.Constants;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class EllenAnswer extends Auditable{
     @Getter
     @Setter
     @NotNull
+    @JsonBackReference
     private Question question;
 
     public Question getQuestion() {
