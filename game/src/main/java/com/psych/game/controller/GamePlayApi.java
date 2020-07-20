@@ -2,10 +2,7 @@ package com.psych.game.controller;
 
 
 import com.psych.game.Utils;
-import com.psych.game.model.Game;
-import com.psych.game.model.GameMode;
-import com.psych.game.model.Player;
-import com.psych.game.model.Round;
+import com.psych.game.model.*;
 import com.psych.game.repository.GameModeRepository;
 import com.psych.game.repository.GameRepository;
 import com.psych.game.repository.PlayerAnswerRepository;
@@ -14,10 +11,7 @@ import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -40,6 +34,7 @@ public class GamePlayApi {
         success.put("status","success");
     }
 
+    @ExceptionHandler(Exception.class)
     public JSONObject handleException(Exception e){
         JSONObject error=new JSONObject();
         error.put("status","error");
@@ -194,12 +189,65 @@ public class GamePlayApi {
     }
 
 
-    //todo start game
-    //todo end game
-    // todo submit answer
-    //todo select answer
-    //todo player ready
-    //todo player not ready
+
+
+    @GetMapping("/start-game")
+    public JSONObject startGame(Authentication authentication) throws Exception {
+        Player leader=getCurrentPlayer(authentication);
+        leader.getCurrentGame().startGame(leader);
+        return success;
+    }
+
+
+
+    @GetMapping("/end-game")
+    public JSONObject endGame(Authentication authentication) throws Exception {
+        Player leader=getCurrentPlayer(authentication);
+        leader.getCurrentGame().endGame(leader);
+        return success;
+    }
+
+
+
+    @GetMapping("/submit-answer")
+    public JSONObject submitAnswer(Authentication authentication,
+                                   @RequestParam(name = "answer")String answer
+                                   ) throws Exception {
+        Player player=getCurrentPlayer(authentication);
+        Game game=player.getCurrentGame();
+        game.submitAnswer(player,answer);
+        return success;
+    }
+
+
+
+    @GetMapping("/select-answer")
+    public JSONObject selectAnswer(Authentication authentication,
+                                   @RequestParam(name = "answerId")long answerId) throws Exception {
+        Player player=getCurrentPlayer(authentication);
+        Game game=player.getCurrentGame();
+        PlayerAnswer playerAnswer=playerAnswerRepository.findById(answerId).orElseThrow();
+        game.selectAnswer(player,playerAnswer);
+        return success;
+    }
+
+
+
+    @GetMapping("/player-ready")
+    public JSONObject playerReady(Authentication authentication) throws Exception {
+        Player player=getCurrentPlayer(authentication);
+        Game game=player.getCurrentGame();
+        game.playerIsReady(player);
+        return  success;
+    }
+
+    @GetMapping("/player-not-ready")
+    public JSONObject playerNotReady(Authentication authentication) throws Exception {
+        Player player=getCurrentPlayer(authentication);
+        Game game=player.getCurrentGame();
+        game.playerIsNotReady(player);
+        return success;
+    }
 
 
 

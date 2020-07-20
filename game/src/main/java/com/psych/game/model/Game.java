@@ -187,6 +187,7 @@ public class Game extends Auditable{
             oldPlayerStats.setGotPsychedCount(oldPlayerStats.getGotPsychedCount()+currentGameStat.getGotPsychedCount());
             oldPlayerStats.setPsychedOthersCount(oldPlayerStats.getPsychedOthersCount()+currentGameStat.getPsychedOthersCount());
 
+            //todo update ellen stat
 
         }
     }
