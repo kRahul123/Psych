@@ -1,2 +1,2 @@
 # Psych
-Getting familiar with java by creating psych game api.
+Psych game api
